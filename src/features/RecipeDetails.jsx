@@ -19,10 +19,10 @@ const RecipeDetails =()=>{
     return (
         <>
         <Header/>
-        {loading && <p>Loading..</p>}
-        {error && <p>{error}</p>}
+        
         <div className="container py-3">
-            
+        {loading && <p className="alert alert-info">Loading..</p>}
+        {error && <p className="alert alert-info">{error}</p>}
             {filterdRecipe && (
                 <>
             <h1>{filterdRecipe.name}</h1>

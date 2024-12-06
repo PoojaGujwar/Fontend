@@ -7,12 +7,14 @@ import { useEffect, useState } from "react";
 const Recipes =()=>{
     const {data, loading, error} = useFetch("https://recipe-eta-flame.vercel.app/recipes")
     const [fetchData, setFetchData] = useState([])
+    const [inputValue, setInputValue] = useState('')
     const [message, setMessage] = useState('')
    useEffect(()=>{
     if(data){
-        setFetchData(data)
+        setFetchData(inputValue?(data.filter((recipe) => recipe.cuisineType?.toLowerCase().includes(inputValue.toLowerCase()))
+    ):data)
     }
-   },[data])
+   },[data, inputValue])
    const handleDeleteBtn =async(e,id)=>{
     e.preventDefault()
     try{
@@ -43,7 +45,9 @@ const Recipes =()=>{
             {loading && <p className="alert alert-info">Loading...</p>}
             {message && <p className="alert alert-info">{message}</p>}
             {error ? <p>{error}</p>:""}
-            
+            <div className="col-lg-10 col-md-4 py-3">
+            <input onChange={(e)=>setInputValue(e.target.value)} value={inputValue} placeholder="Search by cuisine..." className="form-control"/>
+            </div>
             <div className="row">
                 {fetchData && fetchData?.map((recipe)=>(
                     <div className="col-lg-4 col-md-6 col-sm-12">
